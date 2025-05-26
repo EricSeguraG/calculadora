@@ -107,7 +107,7 @@ public class HistorialCalculadora {
 
     // Verifica si el resultado final de la operación es 69 o 69.0
     if (operacion.matches(".*=\\s*69(\\.0*)?\\b.*")) {
-        historial.add("ESE ES MI AREA");
+        historial.add("ESA ES MI AREA");
         reproducirSonido("area.wav");
     }
 

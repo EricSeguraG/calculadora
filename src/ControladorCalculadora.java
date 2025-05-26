@@ -85,7 +85,6 @@ public class ControladorCalculadora {
                 break;
 
             case "HISTORIAL":
-                // Mostrar historial (implementación depende de tu clase VistaCalculadora)
                 break;
 
             case "BORRAR HIST.":

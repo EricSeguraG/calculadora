@@ -15,13 +15,14 @@ public class VistaCalculadora extends JFrame {
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
 
-        JPanel contenido = new JPanel(new BorderLayout(10, 10));
+        // Fondo personalizado
+        FondoPanel contenido = new FondoPanel("leopardo.jpg");
+        contenido.setLayout(new BorderLayout(10, 10));
         contenido.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
-        contenido.setBackground(new Color(25, 25, 25));
 
         // Panel superior
         JPanel panelSuperior = new JPanel(new BorderLayout());
-        panelSuperior.setBackground(new Color(25, 25, 25));
+        panelSuperior.setOpaque(false); // transparente para ver el fondo
 
         operacionLabel = new JLabel("", SwingConstants.RIGHT);
         operacionLabel.setForeground(new Color(150, 150, 150));
@@ -40,23 +41,20 @@ public class VistaCalculadora extends JFrame {
         display.setPreferredSize(new Dimension(400, 80));
         panelSuperior.add(display, BorderLayout.CENTER);
 
-        // Crear instancia del historial
         historialCalculadora = new HistorialCalculadora();
 
-        // Panel de botones usando GridBagLayout para mejor control y visibilidad
         JPanel panelBotones = new JPanel(new GridBagLayout());
-        panelBotones.setBackground(new Color(25, 25, 25));
+        panelBotones.setOpaque(false); // transparente
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.fill = GridBagConstraints.BOTH;
         gbc.insets = new Insets(3, 3, 3, 3);
 
-        // Crear botones con tamaños específicos
         String[][] layout = {
                 {"7", "8", "9", "/"},
                 {"4", "5", "6", "*"},
                 {"1", "2", "3", "-"},
                 {".", "0", "+/-", "+"},
-                {"C", "AC", "=",},
+                {"C", "AC", "="},
                 {"HISTORIAL", "BORRAR HIST.", "BORRAR HIST."}
         };
 
@@ -64,7 +62,7 @@ public class VistaCalculadora extends JFrame {
             for (int col = 0; col < layout[row].length; col++) {
                 String texto = layout[row][col];
 
-                // Evitar duplicados en la misma fila
+                // Evitar duplicados
                 if ((texto.equals("=") && col == 3) ||
                     (texto.equals("HISTORIAL") && col == 1) ||
                     (texto.equals("BORRAR HIST.") && col == 3)) {
@@ -72,11 +70,9 @@ public class VistaCalculadora extends JFrame {
                 }
 
                 JButton btn = crearBoton(texto);
-
                 gbc.gridx = col;
                 gbc.gridy = row;
 
-                // Configurar tamaños preferenciales
                 if (texto.equals("=") || texto.equals("HISTORIAL") || texto.equals("BORRAR HIST.")) {
                     gbc.gridwidth = 2;
                     btn.setPreferredSize(new Dimension(200, 100));
@@ -93,7 +89,6 @@ public class VistaCalculadora extends JFrame {
                 panelBotones.add(btn, gbc);
                 botones.put(texto, btn);
 
-                // Saltar columnas para botones anchos
                 if (gbc.gridwidth == 2) {
                     col++;
                 }
@@ -113,24 +108,23 @@ public class VistaCalculadora extends JFrame {
         btn.setFont(new Font("Segoe UI", Font.BOLD, 22));
         btn.setForeground(Color.WHITE);
 
-        // Colores personalizados según tipo de botón
         Color baseColor = new Color(50, 50, 50);
         Color hoverColor = new Color(80, 80, 80);
 
         if (texto.equals("=")) {
-            baseColor = new Color(0, 153, 0);       
-            hoverColor = new Color(0, 180, 0);      
+            baseColor = new Color(0, 153, 0);
+            hoverColor = new Color(0, 180, 0);
         } else if (texto.equals("+") || texto.equals("-") || texto.equals("*") || texto.equals("/")) {
-            baseColor = new Color(153, 0, 0);       
-            hoverColor = new Color(180, 0, 0);      
+            baseColor = new Color(153, 0, 0);
+            hoverColor = new Color(180, 0, 0);
         } else if (texto.equals("HISTORIAL") || texto.equals("BORRAR HIST.")) {
-            baseColor = new Color(20, 20, 20);      
-            hoverColor = new Color(40, 40, 40);     
+            baseColor = new Color(20, 20, 20);
+            hoverColor = new Color(40, 40, 40);
         }
 
         btn.setBackground(baseColor);
         btn.setFocusPainted(false);
-        btn.setBorder(BorderFactory.createLineBorder(Color.WHITE, 2)); // Reborde blanco
+        btn.setBorder(BorderFactory.createLineBorder(Color.WHITE, 2));
 
         Color finalBaseColor = baseColor;
         Color finalHoverColor = hoverColor;
@@ -146,5 +140,9 @@ public class VistaCalculadora extends JFrame {
         });
 
         return btn;
+    }
+
+    public static void main(String[] args) {
+        SwingUtilities.invokeLater(() -> new VistaCalculadora());
     }
 }
